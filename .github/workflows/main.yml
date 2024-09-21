@@ -19,10 +19,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.aws_secret_access_key }}
           aws-region: us-east-1
 
+      - name: Install dependencies
+        run: |
+          npm install # or your project's dependency manager
+
+      - name: Build Project
+        run: |
+          npm run build # replace with your build command
+
       - name: Install AWS CLI
         run: |
           sudo apt-get install -y awscli
 
       - name: Deploy to S3
         run: |
-          aws s3 sync ./your-build-directory s3://deep-protfolio --acl public-read
+          aws s3 sync ./build s3://deep-protfolio --acl public-read
