@@ -19,18 +19,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.aws_secret_access_key }}
           aws-region: us-east-1
 
-      - name: Install dependencies
+      - name: Deploy static site to S3 bucket
         run: |
-          npm install # or your project's dependency manager
+          aws s3 sync ./build s3://deep-protofolio --delete --acl public-read
 
-      - name: Build Project
-        run: |
-          npm run build # replace with your build command
-
-      - name: Install AWS CLI
-        run: |
-          sudo apt-get install -y awscli
-
-      - name: Deploy to S3
-        run: |
-          aws s3 sync ./build s3://deep-protfolio --acl public-read
