@@ -1,0 +1,30 @@
+name: deep-portfolio
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.aws_access_key_id }}
+          aws-secret-access-key: ${{ secrets.aws_secret_access_key }}
+          aws-region: us-east-1
+
+      - name: deploy static website to s3 bucket
+        uses: aws-actions/s3-sync@v1
+        with:
+          args: --acl public-read
+        env:
+          AWS_S3_BUCKET: deep-protfolio
+          # SOURCE_DIR: ./your-build-directory
+
+      
