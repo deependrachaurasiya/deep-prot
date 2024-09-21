@@ -19,12 +19,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.aws_secret_access_key }}
           aws-region: us-east-1
 
-      - name: deploy static website to s3 bucket
-        uses: aws-actions/s3-sync@v1
-        with:
-          args: --acl public-read
-        env:
-          AWS_S3_BUCKET: deep-protfolio
-          # SOURCE_DIR: ./your-build-directory
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get install -y awscli
 
-      
+      - name: Deploy to S3
+        run: |
+          aws s3 sync ./your-build-directory s3://deep-protfolio --acl public-read
